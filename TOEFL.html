@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2113.65">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    span.s1 {font: 12.0px 'Apple Color Emoji'}
+    span.s2 {font: 12.0px 'Zapf Dingbats'}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;TOEFL PBT Prep&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>h2 { color: #004080; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.question { margin-bottom: 15px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.passage { background: #eef; padding: 10px; border-radius: 8px; margin-bottom: 15px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>button { background: #004080; color: white; padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>button:hover { background: #0066cc; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#timer { font-weight: bold; color: #c00; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;TOEFL PBT Practice&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Select a section to begin:&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="startSection('listening')"&gt;<span class="s1">🎧</span> Listening&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="startSection('structure')"&gt;<span class="s2">✍</span> Structure&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="startSection('reading')"&gt;<span class="s1">📖</span> Reading&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p id="timer"&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="quizContainer" class="card" style="display:none;"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;p id="result"&gt;&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// -----------------------------</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Question Bank (10 each)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// -----------------------------</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const questions = {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>listening: [</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "What is the main topic of the conversation?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["Music", "Weather", "Travel", "Food"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 0</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ audio: "", text: "What time does the man say the meeting starts?", options: ["8 AM", "9 AM", "10 AM", "11 AM"], answer: 1 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ audio: "", text: "What is the woman mainly worried about?", options: ["Exams", "Money", "Health", "Weather"], answer: 0 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ audio: "", text: "Where are the speakers probably talking?", options: ["Library", "Café", "Airport", "Classroom"], answer: 3 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ audio: "", text: "What does the man suggest the woman do?", options: ["Take a taxi", "Study harder", "Call her friend", "Buy a ticket"], answer: 0 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ audio: "", text: "What does the professor ask the students to bring?", options: ["Books", "Laptops", "Papers", "Pens"], answer: 2 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ audio: "", text: "What problem does the woman mention?", options: ["Traffic", "Noise", "Rain", "Sick child"], answer: 0 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ audio: "", text: "What is the man’s opinion of the food?", options: ["Delicious", "Too spicy", "Too cold", "Expensive"], answer: 1 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ audio: "", text: "Where are they planning to go?", options: ["Park", "Cinema", "Museum", "Beach"], answer: 2 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ audio: "", text: "What time will the bus leave?", options: ["6:00", "6:30", "7:00", "7:30"], answer: 2 }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>],</p>
+<p class="p1"><span class="Apple-converted-space">      </span>structure: [</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "The professor ____ the students to submit their papers by Friday.", options: ["tell", "told", "telling", "was tell"], answer: 1 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "The book, together with its supplements, ____ on the table.", options: ["is", "are", "were", "be"], answer: 0 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "Each of the students ____ responsible for the work.", options: ["are", "is", "were", "be"], answer: 1 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "Neither the teacher nor the students ____ ready for the test.", options: ["is", "are", "was", "be"], answer: 1 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "She ____ to the store when it started raining.", options: ["go", "goes", "was going", "gone"], answer: 2 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "If I ____ you, I would take the job.", options: ["am", "were", "was", "be"], answer: 1 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "Hardly ____ the bell rung when the class began.", options: ["had", "have", "has", "was"], answer: 0 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "This is the first time he ____ abroad.", options: ["travel", "travels", "has traveled", "traveled"], answer: 2 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "Not only Tom but also his friends ____ invited.", options: ["was", "were", "is", "be"], answer: 1 },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ text: "She would rather ____ home than go to the party.", options: ["stay", "stays", "staying", "stayed"], answer: 0 }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>],</p>
+<p class="p1"><span class="Apple-converted-space">      </span>reading: [</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "The Amazon rainforest is the largest rainforest in the world. It covers over 5.5 million square kilometers across nine countries. It is home to millions of species of plants and animals.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "How large is the Amazon rainforest?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["2 million km²", "5.5 million km²", "10 million km²", "1 million km²"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 1</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "The Great Wall of China was built over many centuries. Its purpose was to protect China from northern invasions. Today, it is one of the most famous tourist attractions in the world.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "What was the original purpose of the Great Wall?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["Transportation", "Defense", "Trade", "Tourism"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 1</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "The Pacific Ocean is the largest ocean on Earth. It covers more area than all the landmasses combined. It is also the deepest ocean, with the Mariana Trench reaching nearly 11,000 meters.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "What is the maximum depth of the Pacific Ocean?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["5,000 m", "7,000 m", "11,000 m", "15,000 m"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 2</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "The Eiffel Tower was built in 1889 for the World’s Fair in Paris. At first, many Parisians disliked it, but now it is one of the most recognized landmarks in the world.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "When was the Eiffel Tower built?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["1789", "1889", "1989", "2000"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 1</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "Mount Everest is the tallest mountain in the world, standing at 8,848 meters above sea level. Climbers from around the globe attempt to reach its summit every year.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "What is the height of Mount Everest?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["7,848 m", "8,848 m", "9,848 m", "10,848 m"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 1</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "Shakespeare wrote many famous plays, including Romeo and Juliet, Hamlet, and Macbeth. His works are still performed worldwide and studied in schools and universities.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "Which of these is NOT a play by Shakespeare?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["Hamlet", "Macbeth", "Romeo and Juliet", "The Odyssey"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 3</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "The Nile River is about 6,650 kilometers long and is often considered the longest river in the world. It flows through eleven countries in northeastern Africa.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "How many countries does the Nile flow through?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["7", "9", "11", "13"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 2</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "Albert Einstein developed the theory of relativity, which changed the way scientists understood space and time. He received the Nobel Prize in Physics in 1921.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "When did Einstein win the Nobel Prize?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["1905", "1915", "1921", "1930"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 2</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "Japan is made up of four main islands: Honshu, Hokkaido, Kyushu, and Shikoku. The capital city, Tokyo, is on Honshu and is one of the largest cities in the world.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "Which island is Tokyo on?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["Hokkaido", "Honshu", "Kyushu", "Shikoku"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 1</p>
+<p class="p1"><span class="Apple-converted-space">        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>passage: "The Internet became widely used in the 1990s. It has since transformed communication, education, business, and entertainment around the globe.",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>text: "When did the Internet become widely used?",</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: ["1970s", "1980s", "1990s", "2000s"],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>answer: 2</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>]</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>let currentSection = "";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let score = 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let total = 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let timer;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// -----------------------------</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// App Functions</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// -----------------------------</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function startSection(section) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>currentSection = section;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>score = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>total = questions[section].length;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("result").innerText = "";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>loadQuestions(section);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>setTimer(section);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function loadQuestions(section) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const container = document.getElementById("quizContainer");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>container.style.display = "block";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>container.innerHTML = "";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>questions[section].forEach((q, index) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let div = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>div.className = "question";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (q.audio) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>div.innerHTML += `&lt;audio controls&gt;&lt;source src="${q.audio}" type="audio/mpeg"&gt;&lt;/audio&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (q.passage) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>div.innerHTML += `&lt;div class="passage"&gt;${q.passage}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>div.innerHTML += `&lt;p&gt;${index + 1}. ${q.text}&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>q.options.forEach((opt, i) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>div.innerHTML += `&lt;label&gt;&lt;input type="radio" name="q${index}" value="${i}"&gt; ${opt}&lt;/label&gt;&lt;br&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>container.appendChild(div);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>let submitBtn = document.createElement("button");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>submitBtn.innerText = "Submit Section";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>submitBtn.onclick = checkAnswers;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>container.appendChild(submitBtn);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function checkAnswers() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let qList = questions[currentSection];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>score = 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>qList.forEach((q, index) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let selected = document.querySelector(`input[name="q${index}"]:checked`);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (selected &amp;&amp; parseInt(selected.value) === q.answer) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>score++;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>clearInterval(timer);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("timer").innerText = "";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById("result").innerText =<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>`Your score: ${score} / ${total}`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function setTimer(section) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let time;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (section === "listening") time = 10 * 60;<span class="Apple-converted-space">      </span>// 10 minutes</p>
+<p class="p1"><span class="Apple-converted-space">      </span>else if (section === "structure") time = 15 * 60; // 15 minutes</p>
+<p class="p1"><span class="Apple-converted-space">      </span>else if (section === "reading") time = 20 * 60; <span class="Apple-converted-space">  </span>// 20 minutes</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>timer = setInterval(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let minutes = Math.floor(time / 60);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let seconds = time % 60;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("timer").innerText =</p>
+<p class="p1"><span class="Apple-converted-space">          </span>`Time remaining: ${minutes}:${seconds &lt; 10 ? "0" : ""}${seconds}`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>time--;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (time &lt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>clearInterval(timer);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>checkAnswers();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}, 1000);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
